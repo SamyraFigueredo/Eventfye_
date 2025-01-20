@@ -16,7 +16,7 @@ Bem-vindo ao **Eventfye**, a solução definitiva para organizar e gerenciar eve
 
 ## ⚙️ Tecnologias Utilizadas
  ### Backend
- - **Java 21**
+ - **Java 22**
  - **Spring Boot**
  - **MySQL**
  - **Keycloak (para autenticação e autorização)**
