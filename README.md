@@ -14,9 +14,9 @@ Bem-vindo ao **Eventfye**, a solução definitiva para organizar e gerenciar eve
 - **Notificações e Lembretes Personalizados**  
 - **Emissão de Certificados com Autenticação Eletrônica**
 
-⚙️ Tecnologias Utilizadas
- Backend
- -Java 21
- -Spring Boot
- -MySQL
- -Keycloak (para autenticação e autorização)
+## ⚙️ Tecnologias Utilizadas
+ ### Backend
+ - **Java 21**
+ - **Spring Boot**
+ - **MySQL**
+ - **Keycloak (para autenticação e autorização)**
