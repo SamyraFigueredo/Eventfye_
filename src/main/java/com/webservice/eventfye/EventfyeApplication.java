@@ -1,4 +1,4 @@
-package Eventfye;
+package com.webservice.eventfye;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
