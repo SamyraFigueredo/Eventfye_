@@ -10,12 +10,10 @@ import java.util.Optional;
 @Repository
 public interface PalestranteRepository extends JpaRepository<Palestrante, Long> {
 
-    Optional<Palestrante> findByNomeUsuario(String nome);
+    Optional<Palestrante> findByNomePalestrante(String nome);
 
     List<Palestrante> findByAreaExpertisePalestrante(String areaExpertise);
-    List<Palestrante> findByNomeUsuarioContaining(String nome);
-    List<Palestrante> findByNomeUsuarioStartingWith(String nome);
-    List<Palestrante> findAllByOrderByNomeUsuarioAsc();
-
-    long countByAreaExpertisePalestrante(String areaExpertise);
+    List<Palestrante> findByNomePalestranteContaining(String nome);
+    List<Palestrante> findByNomePalestranteStartingWith(String nome);
+    List<Palestrante> findAllByOrderByNomePalestranteAsc();
 }

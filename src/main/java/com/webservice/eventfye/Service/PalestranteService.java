@@ -15,42 +15,51 @@ public class PalestranteService {
     private PalestranteRepository palestranteRepository;
 
     public Optional<Palestrante> buscarPalestrantePorNome(String nome) {
-        return palestranteRepository.findByNomeUsuario(nome);
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome do palestrante não pode ser nulo ou vazio.");
+        }
+        return palestranteRepository.findByNomePalestrante(nome);
     }
 
     public List<Palestrante> buscarPalestrantesPorAreaExpertise(String areaExpertise) {
+        if (areaExpertise == null || areaExpertise.isBlank()) {
+            throw new IllegalArgumentException("A área de expertise não pode ser nula ou vazia.");
+        }
         return palestranteRepository.findByAreaExpertisePalestrante(areaExpertise);
     }
 
     public List<Palestrante> buscarPalestrantesPorNomeContendo(String nome) {
-        return palestranteRepository.findByNomeUsuarioContaining(nome);
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome não pode ser nulo ou vazio.");
+        }
+        return palestranteRepository.findByNomePalestranteContaining(nome);
     }
 
     public List<Palestrante> buscarPalestrantesPorNomeComecandoCom(String nome) {
-        return palestranteRepository.findByNomeUsuarioStartingWith(nome);
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome não pode ser nulo ou vazio.");
+        }
+        return palestranteRepository.findByNomePalestranteStartingWith(nome);
     }
 
     public List<Palestrante> buscarTodosPalestrantesOrdenadosPorNome() {
-        return palestranteRepository.findAllByOrderByNomeUsuarioAsc();
-    }
-
-    public long contarPalestrantesPorAreaExpertise(String areaExpertise) {
-        return palestranteRepository.countByAreaExpertisePalestrante(areaExpertise);
+        return palestranteRepository.findAllByOrderByNomePalestranteAsc();
     }
 
     public Palestrante salvarPalestrante(Palestrante palestrante) {
+        if (palestrante == null) {
+            throw new IllegalArgumentException("O palestrante não pode ser nulo.");
+        }
         return palestranteRepository.save(palestrante);
     }
 
     public void excluirPalestrante(Long id) {
-        palestranteRepository.deleteById(id);
-    }
-
-    public void excluirPalestrantesPorAreaExpertise(String areaExpertise) {
-        List<Palestrante> palestrantes = palestranteRepository.findByAreaExpertisePalestrante(areaExpertise);
-        if (palestrantes.isEmpty()) {
-            throw new RuntimeException("Nenhum palestrante encontrado com a área de expertise fornecida.");
+        if (id == null) {
+            throw new IllegalArgumentException("O ID do palestrante não pode ser nulo.");
         }
-        palestranteRepository.deleteAll(palestrantes);
+        if (!palestranteRepository.existsById(id)) {
+            throw new RuntimeException("Nenhum palestrante encontrado com o ID fornecido.");
+        }
+        palestranteRepository.deleteById(id);
     }
 }
