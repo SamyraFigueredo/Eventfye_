@@ -2,14 +2,16 @@ package com.webservice.eventfye.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.webservice.eventfye.Controller.Request.EventoRequest;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.net.URLConnection;
 import java.time.ZonedDateTime;
 
 
@@ -30,12 +32,15 @@ public class Evento implements Serializable {
 
     @Column(name = "data_inicio_evento")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssX")
     private ZonedDateTime dataInicioEvento;
     @Column(name = "data_fim_evento")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssX")
     private ZonedDateTime dataFimEvento;
+
+    @Column(name = "local_evento")
+    private String localEvento;
 
     @Column(name = "desc_evento")
     private String descricaoEvento;
@@ -43,7 +48,7 @@ public class Evento implements Serializable {
     @Column(name = "link_evento")
     private String linkEvento;
 
-    @Lob
+
     @Column(name = "icone_evento")
     private byte[] iconeEvento;
 

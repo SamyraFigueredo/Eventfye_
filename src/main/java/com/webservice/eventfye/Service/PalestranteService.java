@@ -2,6 +2,7 @@ package com.webservice.eventfye.Service;
 
 import com.webservice.eventfye.Model.Palestrante;
 import com.webservice.eventfye.Repository.PalestranteRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,11 @@ public class PalestranteService {
             throw new IllegalArgumentException("O nome do palestrante não pode ser nulo ou vazio.");
         }
         return palestranteRepository.findByNomePalestrante(nome);
+    }
+
+    public Palestrante buscarPalestrantePorId(Long id) {
+        return palestranteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Palestrante com ID " + id + " não encontrado."));
     }
 
     public List<Palestrante> buscarPalestrantesPorAreaExpertise(String areaExpertise) {
@@ -58,7 +64,7 @@ public class PalestranteService {
             throw new IllegalArgumentException("O ID do palestrante não pode ser nulo.");
         }
         if (!palestranteRepository.existsById(id)) {
-            throw new RuntimeException("Nenhum palestrante encontrado com o ID fornecido.");
+            throw new EntityNotFoundException("Nenhum palestrante encontrado com o ID fornecido.");
         }
         palestranteRepository.deleteById(id);
     }
