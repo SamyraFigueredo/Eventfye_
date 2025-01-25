@@ -10,12 +10,12 @@ import java.net.MalformedURLException;
 public class URLValidador implements ConstraintValidator<URLVaziaOuValida, String> {
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null || value.isBlank()) {
+    public boolean isValid(String valor, ConstraintValidatorContext context) {
+        if (valor == null || valor.isBlank()) {
             return true;
         }
         try {
-            URI uri = new URI(value);
+            URI uri = new URI(valor);
             uri.toURL();
             return true;
         } catch (URISyntaxException | IllegalArgumentException | MalformedURLException e) {
