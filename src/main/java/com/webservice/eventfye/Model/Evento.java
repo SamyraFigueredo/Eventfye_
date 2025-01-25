@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URLConnection;
 import java.time.ZonedDateTime;
@@ -21,6 +22,8 @@ import java.time.ZonedDateTime;
 @Table(name = "evento")
 @Entity
 public class Evento implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
