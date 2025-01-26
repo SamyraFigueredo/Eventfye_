@@ -24,9 +24,6 @@ public class Usuario {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(name = "cpf_usuario", nullable = false, length = 14, unique = true)
-    private String cpfUsuario;
-
     @Column(name = "email_usuario", nullable = false, length = 100, unique = true)
     private String emailUsuario;
 }
