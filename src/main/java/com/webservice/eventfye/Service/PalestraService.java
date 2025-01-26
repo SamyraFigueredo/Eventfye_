@@ -14,9 +14,9 @@ public class PalestraService {
     private PalestraRepository repository;
 
     public Palestra insert(Palestra palestra){
-        Optional<Palestra> optionalPalestra = repository.findByValues(palestra.getNomePalestra(),palestra.getNomePalestrante(),palestra.getHorarioPalestra());
+        Optional<Palestra> optionalPalestra = repository.findByValues(palestra.getNomePalestra(),palestra.getPalestrante(), palestra.getEvento(),palestra.getHorarioPalestra());
         if (optionalPalestra.isPresent()){
-            throw new IllegalArgumentException("Esse evento já existe!");
+            throw new IllegalArgumentException("Essa palestra já existe!");
         }
         return repository.save(palestra);
     }
