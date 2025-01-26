@@ -29,11 +29,11 @@ public class InscricaoService {
     }
 
     public List<Inscricao> buscarInscricoesPorUsuario(Long usuarioId) {
-        return inscricaoRepository.findByUsuarioId(usuarioId);
+        return inscricaoRepository.findByUsuarioIdUsuario(usuarioId);
     }
 
     public List<Inscricao> buscarInscricoesPorEvento(Long eventoId) {
-        return inscricaoRepository.findByEventoId(eventoId);
+        return inscricaoRepository.findByEventoIdEvento(eventoId);
     }
 
     public Inscricao atualizarStatusInscricao(Long idInscricao, String novoStatus) {
