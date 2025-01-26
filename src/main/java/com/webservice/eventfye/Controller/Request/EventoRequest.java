@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 
 public record EventoRequest(
         @NotNull(message = "O nome não pode ficar em branco")
-        @Size(min = 3, max = 100, message = "O nome precisa ter entre 1 e 100 caracteres")
+        @Size(min = 3, max = 100, message = "O nome precisa ter entre 3 e 100 caracteres")
         String tituloEvento,
         @NotNull(message = "A descrição do evento não pode ficar em branco")
         @Size(max = 1500, message = "A descrição precisa ser menor que 1500 caracteres")
@@ -27,7 +27,7 @@ public record EventoRequest(
         @NotNull(message = "A data final não pode ficar em branco")
         ZonedDateTime dataFimEvento,
         @NotNull(message = "O local do evento não pode ficar em branco")
-        @Size(min = 15, max = 255, message = "O endereço precisa ter entre 5 e 255 caracteres")
+        @Size(min = 15, max = 255, message = "O endereço precisa ter entre 15 e 255 caracteres")
         String localEvento,
         MultipartFile iconeEvento,
         @URLVaziaOuValida
