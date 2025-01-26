@@ -30,15 +30,17 @@ public class Palestra implements Serializable {
     @Column(name = "nome_palestra")
     private String nomePalestra;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "palestrantes_palestra",
-            joinColumns = @JoinColumn(name = "id_palestra")
-    )
-    @Column(name = "palestrante")
-    private List<String> nomePalestrante;
-
     @Column(name = "horario_palestra")
     private LocalTime horarioPalestra;
+
+    @ManyToOne
+    @JoinColumn(name = "id_palestrante")
+    private Palestrante palestrante;
+
+    @ManyToOne
+    @JoinColumn(name = "id_evento")
+    private Evento evento;
+
+
 
 }

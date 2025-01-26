@@ -14,6 +14,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.net.URLConnection;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -54,5 +56,8 @@ public class Evento implements Serializable {
 
     @Column(name = "icone_evento")
     private byte[] iconeEvento;
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Palestra> palestras = new ArrayList<>();
 
 }
