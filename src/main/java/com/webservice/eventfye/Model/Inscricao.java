@@ -22,7 +22,7 @@ public class Inscricao {
     private Long idInscricao;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
     @ManyToOne
@@ -43,4 +43,3 @@ public class Inscricao {
         CANCELADA
     }
 }
-
