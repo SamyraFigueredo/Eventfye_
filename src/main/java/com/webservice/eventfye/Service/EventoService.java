@@ -7,6 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EventoService {
 
@@ -14,6 +16,10 @@ public class EventoService {
     private EventoRepository repository;
 
     public Evento insert(Evento evento){
+        Optional<Evento> optionalEvento = repository.findByValues(evento.getNomeEvento(),evento.getDataInicioEvento(),evento.getDataFimEvento(),evento.getLocalEvento(),evento.getLinkEvento());
+        if(optionalEvento.isEmpty()){
+            throw new IllegalArgumentException("Esse evento já existe!");
+        }
         return repository.save(evento);
     }
 
@@ -24,6 +30,10 @@ public class EventoService {
             throw new EntityNotFoundException("Não foi possível deletar o evento com id: " + id + ", evento não encontrado.");
         }
 
+    }
+
+    public Evento findById(Long id){
+        return repository.findByIdEvento(id);
     }
 
     public void update(Long id, EventoRequest evento){
