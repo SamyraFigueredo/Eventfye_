@@ -27,6 +27,16 @@ public class PalestranteService {
                 .orElseThrow(() -> new EntityNotFoundException("Palestrante com ID " + id + " não encontrado."));
     }
 
+    public Palestrante buscarPorEmail(String email) {
+        Optional<Palestrante> palestrante = palestranteRepository.findByEmail(email);
+
+        if (palestrante.isPresent()) {
+            return palestrante.get();
+        } else {
+            throw new RuntimeException("Palestrante com email " + email + " não encontrado.");
+        }
+    }
+
     public List<Palestrante> buscarPalestrantesPorAreaExpertise(String areaExpertise) {
         if (areaExpertise == null || areaExpertise.isBlank()) {
             throw new IllegalArgumentException("A área de expertise não pode ser nula ou vazia.");
