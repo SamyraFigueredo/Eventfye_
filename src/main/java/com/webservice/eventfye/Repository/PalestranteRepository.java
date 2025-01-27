@@ -11,9 +11,11 @@ import java.util.Optional;
 public interface PalestranteRepository extends JpaRepository<Palestrante, Long> {
 
     Optional<Palestrante> findByNomePalestrante(String nome);
-
+    Optional<Palestrante> findByEmail(String email);
     List<Palestrante> findByAreaExpertisePalestrante(String areaExpertise);
     List<Palestrante> findByNomePalestranteContaining(String nome);
     List<Palestrante> findByNomePalestranteStartingWith(String nome);
     List<Palestrante> findAllByOrderByNomePalestranteAsc();
+
+
 }

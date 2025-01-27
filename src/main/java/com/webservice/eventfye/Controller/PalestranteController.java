@@ -22,6 +22,24 @@ public class PalestranteController {
         this.palestranteService = palestranteService;
     }
 
+    @PostMapping
+    public ResponseEntity<Palestrante> criarPalestrante(@RequestBody @Valid PalestranteDto palestranteDto) {
+        Palestrante palestrante = new Palestrante();
+        palestrante.setNomePalestrante(palestranteDto.nomePalestrante());
+        palestrante.setEmail(palestranteDto.email());
+        palestrante.setBioPalestrante(palestranteDto.bioPalestrante());
+        palestrante.setAreaExpertisePalestrante(palestranteDto.areaExpertisePalestrante());
+
+        Palestrante salvo = palestranteService.salvarPalestrante(palestrante);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
+    }
+
+    @GetMapping("/buscar-por-email")
+    public ResponseEntity<Palestrante> buscarPorEmail(@RequestParam String email) {
+        Palestrante palestrante = palestranteService.buscarPorEmail(email);
+        return ResponseEntity.ok(palestrante);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Palestrante> buscarPalestrantePorId(@PathVariable Long id) {
         try {
@@ -42,18 +60,6 @@ public class PalestranteController {
     public ResponseEntity<List<Palestrante>> buscarTodosPalestrantesOrdenadosPorNome() {
         List<Palestrante> palestrantes = palestranteService.buscarTodosPalestrantesOrdenadosPorNome();
         return ResponseEntity.ok(palestrantes);
-    }
-
-    @PostMapping
-    public ResponseEntity<Palestrante> criarPalestrante(@RequestBody @Valid PalestranteDto palestranteDto) {
-        Palestrante palestrante = new Palestrante();
-        palestrante.setNomePalestrante(palestranteDto.nomePalestrante());
-        palestrante.setEmail(palestranteDto.email());
-        palestrante.setBioPalestrante(palestranteDto.bioPalestrante());
-        palestrante.setAreaExpertisePalestrante(palestranteDto.areaExpertisePalestrante());
-
-        Palestrante salvo = palestranteService.salvarPalestrante(palestrante);
-        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
     @PutMapping("/{id}")
