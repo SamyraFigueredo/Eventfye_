@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.ZonedDateTime;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 @Entity
 public class Inscricao {
 

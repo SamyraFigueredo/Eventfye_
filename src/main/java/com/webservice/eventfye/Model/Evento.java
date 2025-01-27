@@ -17,11 +17,10 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "evento")
+@Data
 @Entity
 public class Evento implements Serializable {
     @Serial

@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
 @Table(name = "palestrante")
+@Data
+@Entity
 public class Palestrante {
 
     @Id
