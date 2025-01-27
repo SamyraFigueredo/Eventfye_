@@ -11,10 +11,10 @@ import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Data
 @Entity
 @Table(name = "palestra")
 public class Palestra implements Serializable {
