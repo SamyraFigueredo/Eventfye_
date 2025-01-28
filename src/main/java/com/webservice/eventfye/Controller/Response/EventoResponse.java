@@ -3,9 +3,11 @@ package com.webservice.eventfye.Controller.Response;
 import com.webservice.eventfye.Model.Evento;
 import com.webservice.eventfye.Model.Palestra;
 import lombok.Getter;
+import org.eclipse.angus.mail.util.BASE64EncoderStream;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ public class EventoResponse {
     private ZonedDateTime dataInicioEvento;
     private ZonedDateTime dataFimEvento;
     private String localEvento;
+    private String iconeEvento;
     private String linkEvento;
     private final List<Palestra> palestras = new ArrayList<Palestra>();
 
@@ -42,6 +45,11 @@ public class EventoResponse {
         this.dataInicioEvento = evento.getDataInicioEvento();
         this.dataFimEvento = evento.getDataFimEvento();
         this.localEvento = evento.getLocalEvento();
+        if (evento.getIconeEvento() != null) {
+            this.iconeEvento = Base64.getEncoder().encodeToString(evento.getIconeEvento());
+        } else{
+            this.iconeEvento = null;
+        }
         this.linkEvento = evento.getLinkEvento();
         Optional.ofNullable(evento.getPalestras())
                 .ifPresent(palestras::addAll);

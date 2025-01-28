@@ -7,10 +7,9 @@ import com.webservice.eventfye.Validator.URLVaziaOuValida;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.util.Base64;
 
 public record EventoRequest(
         @NotNull(message = "O nome não pode ficar em branco")
@@ -29,12 +28,12 @@ public record EventoRequest(
         @NotNull(message = "O local do evento não pode ficar em branco")
         @Size(min = 15, max = 255, message = "O endereço precisa ter entre 15 e 255 caracteres")
         String localEvento,
-        MultipartFile iconeEvento,
+        String iconeEvento,
         @URLVaziaOuValida
         String linkEvento
         ){
 
-    public Evento toModel(MultipartFile iconeEvento){
+    public Evento toModel(){
         Evento evento = new Evento();
         evento.setNomeEvento(tituloEvento);
         evento.setDescricaoEvento(descricaoEvento);
@@ -48,14 +47,11 @@ public record EventoRequest(
         evento.setLocalEvento(localEvento);
         try {
             if (iconeEvento != null && !iconeEvento.isEmpty()) {
-                String contentType = iconeEvento.getContentType();
-                if (contentType == null && !contentType.startsWith("image/")) {
-                    throw new RuntimeException("O arquivo deve ser uma imagem.");
-                }
-                evento.setIconeEvento(iconeEvento.getBytes());
+                byte[] bytesDaImagem = Base64.getDecoder().decode(iconeEvento);
+                evento.setIconeEvento(bytesDaImagem);
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Falha ao ler o ícone do Evento", e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Falha ao decodificar o ícone do Evento (Base64 inválido)", e);
         }
 
         return evento;

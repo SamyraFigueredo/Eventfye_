@@ -37,8 +37,8 @@ public class EventoController {
     }
 
     @PostMapping
-    public ResponseEntity<EventoResponse> create(@Valid @RequestBody EventoRequest eventoRequest, @RequestParam("file") MultipartFile file, @AuthenticationPrincipal Jwt principal) {
-        Evento evento = eventoService.insert(eventoRequest.toModel(file), principal.getClaimAsString("sub"));
+    public ResponseEntity<EventoResponse> create(@Valid @RequestBody EventoRequest eventoRequest, @AuthenticationPrincipal Jwt principal) {
+        Evento evento = eventoService.insert(eventoRequest.toModel(), principal.getClaimAsString("sub"));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(evento.getIdEvento()).toUri();
         return ResponseEntity.created(uri).body(new EventoResponse(evento.getIdEvento()));
     }
