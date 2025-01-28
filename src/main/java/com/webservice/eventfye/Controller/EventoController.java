@@ -33,17 +33,21 @@ public class EventoController {
     }
 
     @PostMapping
-    public ResponseEntity<EventoResponse> create(@Valid @RequestBody EventoRequest eventoRequest, @AuthenticationPrincipal Jwt principal) {
-        Evento evento = eventoService.insert(eventoRequest.toModel(), principal.getClaimAsString("sub"));
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(evento.getIdEvento()).toUri();
-        return ResponseEntity.created(uri).body(new EventoResponse(evento.getIdEvento()));
+    public ResponseEntity<?> create(@Valid @RequestBody EventoRequest eventoRequest, @AuthenticationPrincipal Jwt principal) {
+        try {
+            Evento evento = eventoService.insert(eventoRequest.toModel(), principal.getClaimAsString("sub"));
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(evento.getIdEvento()).toUri();
+            return ResponseEntity.created(uri).body(new EventoResponse(evento.getIdEvento()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EventoResponse> getEvento(@Valid @PathVariable Long id, @AuthenticationPrincipal Jwt principal){
         String idUsuario = principal.getClaimAsString("sub");
         if (idUsuario == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         Optional<Evento> evento = Optional.ofNullable(eventoService.findById(id));
@@ -58,7 +62,7 @@ public class EventoController {
     public ResponseEntity<List<EventoResponse>> getEventos(@AuthenticationPrincipal Jwt principal){
         String idUsuario = principal.getClaimAsString("sub");
         if (idUsuario == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         return ResponseEntity.ok().body(
@@ -67,6 +71,23 @@ public class EventoController {
                 .map(EventoResponse::buildEventoResumido)
                 .toList()
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<EventoResponse> deleteEvento(@Valid @PathVariable Long id, @AuthenticationPrincipal Jwt principal){
+        String idUsuario = principal.getClaimAsString("sub");
+        if (idUsuario == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Optional<Evento> evento = Optional.ofNullable(eventoService.findById(id));
+        if(evento.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        if(idUsuario.contentEquals(evento.get().getIdUsuario())){
+            eventoService.delete(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
 }
