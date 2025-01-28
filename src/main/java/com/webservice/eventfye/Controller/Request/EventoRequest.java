@@ -34,7 +34,7 @@ public record EventoRequest(
         String linkEvento
         ){
 
-    public Evento toModel(){
+    public Evento toModel(MultipartFile iconeEvento){
         Evento evento = new Evento();
         evento.setNomeEvento(tituloEvento);
         evento.setDescricaoEvento(descricaoEvento);
@@ -47,7 +47,11 @@ public record EventoRequest(
         evento.setDataFimEvento(dataFimEvento);
         evento.setLocalEvento(localEvento);
         try {
-            if(iconeEvento != null && !iconeEvento.isEmpty()) {
+            if (iconeEvento != null && !iconeEvento.isEmpty()) {
+                String contentType = iconeEvento.getContentType();
+                if (contentType == null && !contentType.startsWith("image/")) {
+                    throw new RuntimeException("O arquivo deve ser uma imagem.");
+                }
                 evento.setIconeEvento(iconeEvento.getBytes());
             }
         } catch (IOException e) {
