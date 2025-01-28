@@ -3,6 +3,7 @@ package com.webservice.eventfye.Controller.Request;
 import com.webservice.eventfye.Model.Evento;
 import com.webservice.eventfye.Validator.DataFimEventoValida;
 import com.webservice.eventfye.Validator.DataInicioEventoValida;
+import com.webservice.eventfye.Validator.ImagemBase64Valida;
 import com.webservice.eventfye.Validator.URLVaziaOuValida;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ public record EventoRequest(
         @NotNull(message = "O local do evento não pode ficar em branco")
         @Size(min = 15, max = 255, message = "O endereço precisa ter entre 15 e 255 caracteres")
         String localEvento,
+        @ImagemBase64Valida(message = "O ícone deve ser uma imagem Base64 válida")
         String iconeEvento,
         @URLVaziaOuValida
         String linkEvento
