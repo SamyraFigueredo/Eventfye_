@@ -15,8 +15,9 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     Evento findByIdEvento(Long id);
 
 
-    @Query("SELECT e FROM Evento e WHERE e.nomeEvento = :nomeEvento AND e.dataInicioEvento = :dataInicioEvento AND e.dataFimEvento = :dataFimEvento AND (e.localEvento = :localEvento OR e.linkEvento = :linkEvento)")
+    @Query("SELECT e FROM Evento e WHERE  e.idUsuario = :idUsuario AND e.nomeEvento = :nomeEvento AND e.dataInicioEvento = :dataInicioEvento AND e.dataFimEvento = :dataFimEvento AND (e.localEvento = :localEvento OR e.linkEvento = :linkEvento)")
     Optional<Evento> findByValues(
+            @Param("idUsuario") String idusuario,
             @Param("nomeEvento") String nomeEvento,
             @Param("dataInicioEvento") ZonedDateTime dataInicioEvento,
             @Param("dataFimEvento") ZonedDateTime dataFimEvento,

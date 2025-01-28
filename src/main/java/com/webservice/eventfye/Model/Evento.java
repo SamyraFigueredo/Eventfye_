@@ -2,17 +2,14 @@ package com.webservice.eventfye.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.webservice.eventfye.Controller.Request.EventoRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.net.URLConnection;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +50,13 @@ public class Evento implements Serializable {
     @Column(name = "link_evento")
     private String linkEvento;
 
-
+    @Lob
     @Column(name = "icone_evento")
     private byte[] iconeEvento;
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Palestra> palestras = new ArrayList<>();
+
+    private String idUsuario;
 
 }
