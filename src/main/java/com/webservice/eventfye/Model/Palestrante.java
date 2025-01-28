@@ -26,7 +26,7 @@ public class Palestrante {
     @Column(name = "nome", nullable = false, length = 100)
     private String nomePalestrante;
 
-    @Column(name = "email", nullable = false, unique = true, length = 150)
+    @Column(name = "email", unique = true, length = 150)
     private String email;
 
     @Column(name = "bio_palestrante", length = 500)

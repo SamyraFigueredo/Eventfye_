@@ -10,14 +10,17 @@ import com.webservice.eventfye.Service.PalestraService;
 import com.webservice.eventfye.Service.PalestranteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/palestra")
+@RequestMapping(value = "/palestras")
 public class PalestraController {
 
     @Autowired
@@ -30,16 +33,19 @@ public class PalestraController {
     EventoService eventoService;
 
     @PostMapping
-    public ResponseEntity<PalestraResponse> create(@Valid @RequestBody PalestraRequest palestraRequest){
+    public ResponseEntity<PalestraResponse> create(@Valid @RequestBody PalestraRequest palestraRequest, @AuthenticationPrincipal Jwt principal){
         Evento evento = eventoService.findById(palestraRequest.idEvento());
+        String idUsuario = principal.getClaimAsString("sub");
+        if(evento.getIdUsuario().equals(idUsuario)) {
+            Palestrante palestrante = new Palestrante();
+            palestrante.setNomePalestrante(palestraRequest.nomePalestrante());
+            palestrante.setAreaExpertisePalestrante(palestraRequest.expertisePalestrante());
 
-        Palestrante palestrante = new Palestrante();
-        palestrante.setNomePalestrante(palestraRequest.nomePalestrante());
-        palestrante.setAreaExpertisePalestrante(palestraRequest.expertisePalestrante());
-
-        Palestra palestra = palestraService.insert(palestraRequest.toModel(palestranteService.salvarPalestrante(palestrante), evento));
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(palestra.getIdPalestra()).toUri();
-        return ResponseEntity.created(uri).body(new PalestraResponse(palestra));
+            Palestra palestra = palestraService.insert(palestraRequest.toModel(palestranteService.salvarPalestrante(palestrante), evento));
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(palestra.getIdPalestra()).toUri();
+            return ResponseEntity.created(uri).body(new PalestraResponse(palestra));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
 }
