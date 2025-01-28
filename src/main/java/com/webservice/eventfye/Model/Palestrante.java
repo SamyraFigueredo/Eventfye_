@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
 @Table(name = "palestrante")
+@Data
+@Entity
 public class Palestrante {
 
     @Id
@@ -25,6 +25,9 @@ public class Palestrante {
 
     @Column(name = "nome", nullable = false, length = 100)
     private String nomePalestrante;
+
+    @Column(name = "email", nullable = false, unique = true, length = 150)
+    private String email;
 
     @Column(name = "bio_palestrante", length = 500)
     @Nullable

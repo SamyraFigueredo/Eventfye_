@@ -22,6 +22,24 @@ public class PalestranteController {
         this.palestranteService = palestranteService;
     }
 
+    @PostMapping
+    public ResponseEntity<Palestrante> criarPalestrante(@RequestBody @Valid PalestranteDto palestranteDto) {
+        Palestrante palestrante = new Palestrante();
+        palestrante.setNomePalestrante(palestranteDto.nomePalestrante());
+        palestrante.setEmail(palestranteDto.email());
+        palestrante.setBioPalestrante(palestranteDto.bioPalestrante());
+        palestrante.setAreaExpertisePalestrante(palestranteDto.areaExpertisePalestrante());
+
+        Palestrante salvo = palestranteService.salvarPalestrante(palestrante);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
+    }
+
+    @GetMapping("/buscar-por-email")
+    public ResponseEntity<Palestrante> buscarPorEmail(@RequestParam String email) {
+        Palestrante palestrante = palestranteService.buscarPorEmail(email);
+        return ResponseEntity.ok(palestrante);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Palestrante> buscarPalestrantePorId(@PathVariable Long id) {
         try {
@@ -44,32 +62,20 @@ public class PalestranteController {
         return ResponseEntity.ok(palestrantes);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Palestrante> criarPalestrante(@RequestBody @Valid PalestranteDto palestranteDto) {
-//        Palestrante palestrante = new Palestrante();
-//        palestrante.setNomePalestrante(palestranteDto.nomePalestrante());
-//        palestrante.setEmail(palestranteDto.email());
-//        palestrante.setBioPalestrante(palestranteDto.bioPalestrante());
-//        palestrante.setAreaExpertisePalestrante(palestranteDto.areaExpertisePalestrante());
-//
-//        Palestrante salvo = palestranteService.salvarPalestrante(palestrante);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
-//    }
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Palestrante> atualizarPalestrante(@PathVariable Long id, @RequestBody @Valid PalestranteDto palestranteDto) {
-//        try {
-//            Palestrante palestranteExistente = palestranteService.buscarPalestrantePorId(id);
-//            palestranteExistente.setNomePalestrante(palestranteDto.nomePalestrante());
-//            palestranteExistente.setEmail(palestranteDto.email());
-//            palestranteExistente.setBioPalestrante(palestranteDto.bioPalestrante());
-//            palestranteExistente.setAreaExpertisePalestrante(palestranteDto.areaExpertisePalestrante());
-//            Palestrante atualizado = palestranteService.salvarPalestrante(palestranteExistente);
-//            return ResponseEntity.ok(atualizado);
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Palestrante> atualizarPalestrante(@PathVariable Long id, @RequestBody @Valid PalestranteDto palestranteDto) {
+        try {
+            Palestrante palestranteExistente = palestranteService.buscarPalestrantePorId(id);
+            palestranteExistente.setNomePalestrante(palestranteDto.nomePalestrante());
+            palestranteExistente.setEmail(palestranteDto.email());
+            palestranteExistente.setBioPalestrante(palestranteDto.bioPalestrante());
+            palestranteExistente.setAreaExpertisePalestrante(palestranteDto.areaExpertisePalestrante());
+            Palestrante atualizado = palestranteService.salvarPalestrante(palestranteExistente);
+            return ResponseEntity.ok(atualizado);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirPalestrante(@PathVariable Long id) {
