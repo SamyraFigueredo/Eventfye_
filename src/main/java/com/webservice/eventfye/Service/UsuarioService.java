@@ -27,6 +27,10 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    public List<Usuario> buscarTodosOrdenados() {
+        return usuarioRepository.findAllByOrderByNomeUsuarioAsc();
+    }
+
     public Usuario buscarUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id: " + idUsuario));
