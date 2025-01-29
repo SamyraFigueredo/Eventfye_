@@ -2,6 +2,7 @@ package com.webservice.eventfye.Service;
 
 import com.webservice.eventfye.Model.Usuario;
 import com.webservice.eventfye.Repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,5 +82,10 @@ public class UsuarioService {
 
     public boolean verificarNomeExistente(String nome) {
         return usuarioRepository.findByNomeUsuario(nome).isPresent();
+    }
+
+    public Usuario buscarUsuarioPorId(Long idUsuario) {
+        return usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id: " + idUsuario));
     }
 }
