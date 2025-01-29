@@ -1,6 +1,8 @@
 package com.webservice.eventfye.Controller;
 
+import com.webservice.eventfye.Model.Evento;
 import com.webservice.eventfye.Model.Inscricao;
+import com.webservice.eventfye.Model.Usuario;
 import com.webservice.eventfye.Service.InscricaoService;
 import com.webservice.eventfye.Service.EventoService;
 import com.webservice.eventfye.Service.UsuarioService;
@@ -25,17 +27,18 @@ public class InscricaoController {
     @PostMapping("/evento/{id_evento}/usuario/{id_usuario}")
     public ResponseEntity<String> inscreverNoEvento(@PathVariable Long id_evento, @PathVariable Long id_usuario) {
         try {
-            if (!eventoService.existeEvento(id_evento)) {
+            Evento evento = eventoService.findById(id_evento);
+            if (evento == null) {
                 return new ResponseEntity<>("Evento não encontrado.", HttpStatus.NOT_FOUND);
             }
-
-            if (!usuarioService.existeUsuario(id_usuario)) {
+            Usuario usuario = usuarioService.buscarUsuarioPorId(id_usuario);
+            if (usuario == null) {
                 return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
             }
 
             Inscricao inscricao = new Inscricao();
-            inscricao.setEvento(eventoService.buscarEventoPorId(id_evento));
-            inscricao.setUsuario(usuarioService.buscarUsuarioPorId(id_usuario));
+            inscricao.setEvento(evento);
+            inscricao.setUsuario(usuario);
             inscricao.setStatusInscricao(Inscricao.StatusInscricao.PENDENTE.name());
             inscricao = inscricaoService.salvarInscricao(inscricao);
 
