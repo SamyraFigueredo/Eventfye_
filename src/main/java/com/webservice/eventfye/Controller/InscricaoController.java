@@ -96,4 +96,14 @@ public class InscricaoController {
             return new ResponseEntity<>("Erro ao excluir inscrição.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("cancelar/{id_inscricao}")
+    public ResponseEntity<String> cancelarInscricao(@PathVariable Long id_inscricao) {
+        try {
+            Inscricao inscricao = inscricaoService.atualizarStatusInscricao(id_inscricao, "CANCELADA");
+            return new ResponseEntity<>("Inscrição cancelada com sucesso!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao cancelar inscrição.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
