@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UsuarioService {
@@ -25,8 +27,9 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> buscarPorId(Long id) {
-        return usuarioRepository.findById(id);
+    public Usuario buscarUsuarioPorId(Long idUsuario) {
+        return usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id: " + idUsuario));
     }
 
     public Optional<Usuario> buscarPorNome(String nome) {
@@ -35,6 +38,36 @@ public class UsuarioService {
 
     public Optional<Usuario> buscarPorEmail(String email) {
         return usuarioRepository.findByEmailUsuario(email);
+    }
+
+    public Usuario salvarUsuario(Usuario usuario) {
+        validarUsuario(usuario);
+        return usuarioRepository.save(usuario);
+    }
+
+    private void validarUsuario(Usuario usuario) {
+        if (usuario.getNomeUsuario() == null || usuario.getNomeUsuario().isEmpty()) {
+            throw new IllegalArgumentException("Nome do participante é obrigatório.");
+        }
+
+        if (usuario.getDataNascimento() == null) {
+            throw new IllegalArgumentException("Data de nascimento é obrigatória.");
+        }
+
+        if (!validarEmail(usuario.getEmailUsuario())) {
+            throw new IllegalArgumentException("E-mail inválido.");
+        }
+
+        if (usuario.getSenhaUsuario() == null || usuario.getSenhaUsuario().length() < 6) {
+            throw new IllegalArgumentException("Senha deve ter pelo menos 6 caracteres.");
+        }
+    }
+
+    private boolean validarEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     @Transactional
@@ -70,6 +103,7 @@ public class UsuarioService {
                 .nomeUsuario(nome)
                 .dataNascimento(dataNascimento)
                 .emailUsuario(email)
+                .senhaUsuario(senha)
                 .build();
 
         usuarioRepository.save(usuario);
@@ -79,13 +113,7 @@ public class UsuarioService {
     public boolean verificarEmailExistente(String email) {
         return usuarioRepository.findByEmailUsuario(email).isPresent();
     }
-
     public boolean verificarNomeExistente(String nome) {
         return usuarioRepository.findByNomeUsuario(nome).isPresent();
-    }
-
-    public Usuario buscarUsuarioPorId(Long idUsuario) {
-        return usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id: " + idUsuario));
     }
 }
