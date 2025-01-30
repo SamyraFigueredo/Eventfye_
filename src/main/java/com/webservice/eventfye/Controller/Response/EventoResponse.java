@@ -23,6 +23,7 @@ public class EventoResponse {
     private String iconeEvento;
     private String linkEvento;
     private List<Palestra> palestras;
+    private String idUsuario;
 
 
     public EventoResponse(Long id) {
@@ -54,6 +55,7 @@ public class EventoResponse {
         this.palestras = new ArrayList<Palestra>();
         Optional.ofNullable(evento.getPalestras())
                 .ifPresent(palestras::addAll);
+        this.idUsuario = evento.getIdUsuario();
 
     }
 
