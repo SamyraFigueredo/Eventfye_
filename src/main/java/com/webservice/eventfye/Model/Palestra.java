@@ -1,5 +1,6 @@
 package com.webservice.eventfye.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class Palestra implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_evento")
+    @JsonIgnore
     private Evento evento;
 
 

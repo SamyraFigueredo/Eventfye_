@@ -1,5 +1,6 @@
 package com.webservice.eventfye.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,5 +38,6 @@ public class Palestrante {
     private String areaExpertisePalestrante;
 
     @OneToMany(mappedBy = "palestrante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Palestra> palestras = new ArrayList<>();
 }

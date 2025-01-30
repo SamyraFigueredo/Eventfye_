@@ -2,6 +2,7 @@ package com.webservice.eventfye.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,6 +55,7 @@ public class Evento implements Serializable {
     private byte[] iconeEvento;
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Palestra> palestras = new ArrayList<>();
 
     private String idUsuario;
