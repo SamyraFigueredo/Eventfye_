@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -90,4 +91,16 @@ public class EventoController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    @GetMapping("/usuario")
+    public ResponseEntity<List<Evento>> getUserCreatedEventos(@AuthenticationPrincipal Jwt principal){
+        String id = principal.getClaimAsString("sub");
+        return ResponseEntity.ok().body(eventoService
+                .findAll()
+                .stream()
+                .filter(x -> Objects.equals(x.getIdUsuario(), id))
+                .toList()
+                .stream()
+//                .map(y -> new EventoResponse(y.getIdEvento()))
+                .toList());
+    }
 }

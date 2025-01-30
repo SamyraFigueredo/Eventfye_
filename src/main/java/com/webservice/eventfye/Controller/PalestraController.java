@@ -6,6 +6,7 @@ import com.webservice.eventfye.Model.Evento;
 import com.webservice.eventfye.Model.Palestra;
 import com.webservice.eventfye.Model.Palestrante;
 import com.webservice.eventfye.Service.EventoService;
+import com.webservice.eventfye.Service.Exception.EntityNotFoundException;
 import com.webservice.eventfye.Service.PalestraService;
 import com.webservice.eventfye.Service.PalestranteService;
 import jakarta.validation.Valid;
@@ -46,6 +47,16 @@ public class PalestraController {
             return ResponseEntity.created(uri).body(new PalestraResponse(palestra));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirPalestra(@PathVariable Long id) {
+        try {
+            palestraService.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 }

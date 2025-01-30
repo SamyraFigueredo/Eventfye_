@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,9 +22,7 @@ public class Inscricao {
     @Column(name = "id_inscricao")
     private Long idInscricao;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    private UUID usuarioId;
 
     @ManyToOne
     @JoinColumn(name = "evento_id", nullable = false)

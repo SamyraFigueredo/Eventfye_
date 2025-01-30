@@ -20,4 +20,12 @@ public class PalestraService {
         }
         return repository.save(palestra);
     }
+
+    public void delete(Long id){
+        try{
+            repository.deleteById(id);
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class InscricaoService {
@@ -28,8 +29,8 @@ public class InscricaoService {
         return inscricaoRepository.findById(idInscricao);
     }
 
-    public List<Inscricao> buscarInscricoesPorUsuario(Long usuarioId) {
-        return inscricaoRepository.findByUsuarioIdUsuario(usuarioId);
+    public List<Inscricao> buscarInscricoesPorUsuario(UUID usuarioId) {
+        return inscricaoRepository.findByUsuarioId(usuarioId);
     }
 
     public List<Inscricao> buscarInscricoesPorEvento(Long eventoId) {
